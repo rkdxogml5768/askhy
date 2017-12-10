@@ -35,25 +35,25 @@ def index():
 
 	client = arcusdriver.get_client()
 
-	ret = client.set('test:string1', 'test...', 20)
-	print(ret.get_result())
-	assert ret.get_result() == True
+	#ret = client.set('test:string1', 'test...', 20)
+	#print(ret.get_result())
+	#assert ret.get_result() == True
 
-	ret = client.get('test:string1')
-	print(ret.get_result())
-	assert ret.get_result() == 'test...'
+	#ret = client.get('test:string1')
+	#print(ret.get_result())
+	#assert ret.get_result() == 'test...'
 
 	success = True
 	cache = client.lop_get('askhy:asktable_',(0, -1)).get_result()
 
-	print(cache)
+	#print(cache)
 
 	if not cache :
 		success = False
 
 	else :
-		print(bcolors.OKGREEN + "Cache hit!" + bcolors.ENDC)
-		print(cache)
+		#print(bcolors.OKGREEN + "Cache hit!" + bcolors.ENDC)
+		#print(cache)
 
 		result = []
 
@@ -74,19 +74,19 @@ def index():
 		cache = []
 
 		with get_db().cursor() as cursor :
-			print(bcolors.WARNING + "Cache not exists. Create cache" + bcolors.ENDC)
+			#print(bcolors.WARNING + "Cache not exists. Create cache" + bcolors.ENDC)
 
 			ret = client.lop_create('askhy:asktable_', ArcusTranscoder.FLAG_STRING, timeout)
-			print(ret)
+			#print(ret)
 
 			cursor.execute("SELECT *, (SELECT COUNT(*) FROM `cheer` WHERE ask_id = ask.id) AS cheer_cnt FROM `ask`")
 			
 			result = cursor.fetchall()
 			#cache2 = list(result)
-			print(bcolors.OKGREEN + str(len(result)) + bcolors.ENDC)
+			#print(bcolors.OKGREEN + str(len(result)) + bcolors.ENDC)
 
 			for item in result:
-				print(item)
+				#print(item)
 
 				data = "%s/%s/%s/%s/%s" % (
 					str(item[0]), # id
@@ -96,10 +96,10 @@ def index():
 					str(item[4]), # cheer_cnt
 				)
 
-				print(bcolors.OKGREEN + data + bcolors.ENDC)
+				#print(bcolors.OKGREEN + data + bcolors.ENDC)
 
 				finish = client.lop_insert('askhy:asktable_', -1, data)
-				print(finish)
+				#print(finish)
 
 
 
@@ -156,7 +156,7 @@ def add_ask():
 		cursor.execute("SELECT * FROM `ask` WHERE id = %s", (id, ))
 		item = cursor.fetchone()
 		client = arcusdriver.get_client()
-		print(item)
+		#print(item)
 
 		data = "%s/%s/%s/%s/%s" % (
 		str(item[0]), # id
@@ -166,10 +166,10 @@ def add_ask():
 		str(0), # cheer_cnt
 		)
 
-		print(bcolors.OKGREEN + data + bcolors.ENDC)
+		#print(bcolors.OKGREEN + data + bcolors.ENDC)
 
 		finish = client.lop_insert('askhy:asktable_', -1, data)
-		print(finish)
+		#print(finish)
 
 
 	return redirect("/#a" + str(id))
